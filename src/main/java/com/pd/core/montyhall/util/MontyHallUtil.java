@@ -27,7 +27,7 @@ public class MontyHallUtil {
 		int result = -1;
 		for (int currBoxNumber = 0; currBoxNumber < 3; currBoxNumber++) {
 			if (emptyBox != currBoxNumber && currBoxNumber != guestSelectedBox) {
-				System.out.println(String.format(StringBundle.PROGRESS_MESSAGE, "SwappedBox", currBoxNumber));
+				System.out.print(String.format(StringBundle.PROGRESS_MESSAGE, "SwappedBox", currBoxNumber));
 
 				result = currBoxNumber;
 				break;
