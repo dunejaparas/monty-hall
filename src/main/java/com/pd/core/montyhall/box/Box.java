@@ -1,9 +1,9 @@
 package com.pd.core.montyhall.box;
 
-public class Box {
+public final class Box {
 	private boolean isPrizeWinningBox;
 
-	public Box(boolean prize) {
+	public Box(final boolean prize) {
 		this.isPrizeWinningBox = prize;
 	}
 
@@ -11,7 +11,7 @@ public class Box {
 		return isPrizeWinningBox;
 	}
 
-	public void setPrizeWinningBox(boolean isPrize) {
+	public void setPrizeWinningBox(final boolean isPrize) {
 		this.isPrizeWinningBox = isPrize;
 	}
 }
