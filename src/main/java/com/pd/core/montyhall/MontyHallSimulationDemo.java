@@ -2,6 +2,8 @@ package com.pd.core.montyhall;
 
 import static com.pd.core.montyhall.util.StringBundle.*;
 
+import com.pd.core.montyhall.actors.*;
+
 /*
 	Month Hall Problem
 	The problem is a well-known puzzle that you can read more about at
@@ -24,34 +26,46 @@ import static com.pd.core.montyhall.util.StringBundle.*;
 	Maven should be used. Send me your code in a zipped but renamed file removing the �.zip� suffix.
 	Else the spam filters may catch the e-mail.
 
-*/
+ */
 
-import com.pd.core.montyhall.game.PlayGame;
+import com.pd.core.montyhall.game.CurrentGame;
+import com.pd.core.montyhall.prize.BoxesHandler;
 
-public class MontyHall {
+public class MontyHallSimulationDemo {
+
+	private final ActorFactory actorFactory = ActorFactory.INSTANCE;
+
 	public static void main(final String[] args) {
-		new MontyHall().beginSimulation();
+		new MontyHallSimulationDemo().beginSimulation();
 	}
 
 	private void beginSimulation() {
-		int changedResultWon = 0;
-		int changedResultLost = 0;
-		for (int count = 0; count < 10000; count++) {
-			final boolean isPrizeWonAfterChangeMind = playCurrentRound();
-			System.out.print(String.format(PROGRESS_MESSAGE, "IsPrizeWon", isPrizeWonAfterChangeMind));
+		int countChangedWon = 0;
+		int countChangedLost = 0;
+		for (int count = 0; count < TOTAL_SIMULATIONS; count++) {
+			final boolean isPrizeWonAfterChangeMind = playNextRound();
+			System.out.print(String.format(PROGRESS_MESSAGE, IS_PRIZE_WON, isPrizeWonAfterChangeMind));
 			if (isPrizeWonAfterChangeMind) {
-				changedResultWon++;
+				countChangedWon++;
 			} else {
-				changedResultLost++;
+				countChangedLost++;
 			}
 			System.out.println();
 		}
-		System.out.println(GAME_END_TOTAL_WINS + changedResultWon);
-		System.out.println(GAME_END_TOTAL_LOST + changedResultLost);
+		System.out.println(GAME_END_TOTAL_WINS + countChangedWon);
+		System.out.println(GAME_END_TOTAL_LOST + countChangedLost);
+		if (countChangedLost < countChangedWon) {
+			System.out.println(String.format(GAME_END_RESULT, WINS));
+		} else {
+			System.out.println(String.format(GAME_END_RESULT, LOSSES));
+		}
 	}
 
-	private boolean playCurrentRound() {
-		final PlayGame game = new PlayGame();
-		return game.processCurrentRound();
+	private boolean playNextRound() {
+		final Contestant contestant = (Contestant) actorFactory.createActor(ACTOR_TYPE_CONTESTANT);
+		final Host tvHost = (Host) actorFactory.createActor(ACTOR_TYPE_HOST);
+
+		final CurrentGame game = new CurrentGame(contestant, tvHost, BoxesHandler.INSTANCE);
+		return game.playRoundAndChangeSelection();
 	}
 }

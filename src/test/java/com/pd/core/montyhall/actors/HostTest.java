@@ -1,23 +1,28 @@
 package com.pd.core.montyhall.actors;
 
-import static org.mockito.Mockito.when;
-
 import org.junit.*;
+import org.junit.runner.RunWith;
 import org.mockito.*;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.pd.core.montyhall.prize.BoxesHandler;
+import com.pd.core.montyhall.util.StringBundle;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ BoxesHandler.class })
 public class HostTest {
 
 	Host objectUnderTest;
 
 	@Mock
-	BoxesHandler mockBoxesHandler = Mockito.mock(BoxesHandler.class);
+	BoxesHandler mockBoxesHandler;
 
 	@Before
 	public void initTestingSetup() {
 		MockitoAnnotations.initMocks(this);
-		objectUnderTest = new Host(mockBoxesHandler);
+		mockBoxesHandler = Mockito.mock(BoxesHandler.class);
+		objectUnderTest = (Host) ActorFactory.INSTANCE.createActor(StringBundle.ACTOR_TYPE_HOST);
 	}
 
 	@Test
@@ -39,10 +44,9 @@ public class HostTest {
 	}
 
 	private void commonTestPart(final int alreadySelectedBox, final int prizeContainingBox, final int expected) {
-		// prepare
-		when(mockBoxesHandler.findWhichBoxContainsPrize()).thenReturn(prizeContainingBox);
 		// execute
-		final int emptyBox = objectUnderTest.selectOneBoxFromGame(alreadySelectedBox);
+		final int[] values = { alreadySelectedBox, prizeContainingBox };
+		final int emptyBox = objectUnderTest.selectOneBoxFromGame(values);
 		// verify
 		Assert.assertEquals(expected, emptyBox);
 	}

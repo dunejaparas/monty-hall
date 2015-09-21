@@ -1,56 +1,41 @@
 package com.pd.core.montyhall.prize;
 
-import static com.pd.core.montyhall.util.MontyHallUtil.generateRandomNumberBetweenRange;
+import static com.pd.core.montyhall.util.GameUtil.selectOneOfThreeBox;
+import static com.pd.core.montyhall.util.StringBundle.PRIZE;
 
 import java.util.ArrayList;
 
 import com.pd.core.montyhall.box.Box;
 import com.pd.core.montyhall.util.StringBundle;
 
-public class BoxesHandler {
-	private static BoxesHandler instance = null;
-	private static Object lockObject = new Object();
+public enum BoxesHandler {
+	INSTANCE;
 
-	public static BoxesHandler getInstance() {
-		if (instance == null) {
-			synchronized (lockObject) {
-				if (instance == null) {
-					instance = new BoxesHandler();
-				}
-			}
-		}
-		return instance;
-	}
+	// private ArrayList<Box> allBoxesInGame;
 
-	private int whichBoxContainsPrize = -1;
-	private ArrayList<Box> allBoxesInGame;
-
-	public void initPrizeBoxesForTheGame() {
-		whichBoxContainsPrize = -1;
+	public int initPrizeBoxesForTheGame() {
+		int prizeWinningBoxNo = -1;
 		final ArrayList<Box> populatedBoxes = new ArrayList<Box>(3);
-		final int prizeBoxNumber = generateRandomNumberBetweenRange();
+		final int prizeBoxNumber = selectOneOfThreeBox();
 		for (int index = 0; index < 3; index++) {
 			final Box currBox = new Box(false);
 			if (index == prizeBoxNumber) {
 				currBox.setPrizeWinningBox(true);
-				System.out.print(String.format(StringBundle.PROGRESS_MESSAGE, "Prize", index));
+				System.out.print(String.format(StringBundle.PROGRESS_MESSAGE, PRIZE, index));
 
-				whichBoxContainsPrize = index;
+				prizeWinningBoxNo = index;
 			}
 			populatedBoxes.add(currBox);
 		}
-		allBoxesInGame = populatedBoxes;
+		// allBoxesInGame = populatedBoxes;
+		return prizeWinningBoxNo;
 	}
 
-	public int findWhichBoxContainsPrize() {
-		return this.whichBoxContainsPrize;
-	}
-
-	public boolean setContestantNewSelection(final int lastBoxRemaining) {
-		if (allBoxesInGame == null) {
-			throw new NullPointerException("Game not initialzed yet");
-		}
-		final Box box = allBoxesInGame.get(lastBoxRemaining);
-		return box.isPrizeWinningBox();
-	}
+	// public boolean setContestantNewSelection(final int lastBoxRemaining) {
+	// if (allBoxesInGame == null) {
+	// throw new IllegalArgumentException(ERROR_MSG_GAME_NOT_INITIALZED);
+	// }
+	// final Box box = allBoxesInGame.get(lastBoxRemaining);
+	// return box.isPrizeWinningBox();
+	// }
 }

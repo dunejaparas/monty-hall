@@ -1,13 +1,21 @@
 package com.pd.core.montyhall.util;
 
-public class StringBundle {
+public interface StringBundle {
 
-	public static final String ACTOR_TYPE_CONTESTANT = "contestant";
-	public static final String ACTOR_TYPE_HOST = "host";
+	int TOTAL_SIMULATIONS = 10000;
+	int[] GAME_BOX_NUMBERS = { 0, 1, 2 };
 
-	public static final String GAME_END_TOTAL_WINS = "Total WINS after changing mind =";
-	public static final String GAME_END_TOTAL_LOST = "Total LOST after changing mind =";
+	String ACTOR_TYPE_CONTESTANT = "contestant";
+	String ACTOR_TYPE_HOST = "host";
+	String LOSSES = "losses";
+	String WINS = "wins";
+	String IS_PRIZE_WON = "IsPrizeWon";
+	String PRIZE = "Prize";
 
-	public static final String PROGRESS_MESSAGE = "\t %s:  %s ";
-	public static final String JUNIT_FAILED_ITERATION_MESSAGE = "Failed for value: %s in iteration %s";
+	String GAME_END_TOTAL_WINS = "Total WINS after changing mind =";
+	String GAME_END_TOTAL_LOST = "Total LOST after changing mind =";
+	String GAME_END_RESULT = "Change of box by contestant results in more %s ";
+
+	String PROGRESS_MESSAGE = "\t %s:  %s ";
+	String ERROR_MSG_GAME_NOT_INITIALZED = "Game not initialzed yet, cannot set contestant selection.";
 }

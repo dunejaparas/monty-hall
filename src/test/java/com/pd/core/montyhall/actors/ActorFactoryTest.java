@@ -7,7 +7,7 @@ import com.pd.core.montyhall.util.StringBundle;
 
 public class ActorFactoryTest {
 
-	ActorFactory objectUnderTest = ActorFactory.getInstance();
+	ActorFactory objectUnderTest = ActorFactory.INSTANCE;
 
 	@Test
 	public void testHostRequestCreatesHostObject() {
