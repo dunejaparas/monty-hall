@@ -9,14 +9,8 @@ public enum BoxesHandler {
 	INSTANCE;
 
 	public int initPrizeBoxesForTheGame() {
-		int prizeWinningBoxNo = -1;
-		final int prizeBoxNumber = selectOneOfThreeBox();
-		for (int index = 0; index < 3; index++) {
-			if (index == prizeBoxNumber) {
-				System.out.print(String.format(StringBundle.PROGRESS_MESSAGE, PRIZE, index));
-				prizeWinningBoxNo = index;
-			}
-		}
+		final int prizeWinningBoxNo = selectOneOfThreeBox();
+		System.out.print(String.format(StringBundle.PROGRESS_MESSAGE, PRIZE, prizeWinningBoxNo));
 		return prizeWinningBoxNo;
 	}
 }
